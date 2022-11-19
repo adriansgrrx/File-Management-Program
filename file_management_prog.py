@@ -74,19 +74,19 @@ class EventHandler(LoggingEventHandler):
     def move_videos(self, file_entry, name):
         for vid_format in video_formats:
             if name.endswith(vid_format):
-                move_me(my_images, file_entry, name)
+                move_me(my_videos, file_entry, name)
                 logging.info(name)
 
     def move_music(self, file_entry, name):
         for msc_format in music_formats:
             if name.endswith(msc_format):
-                move_me(my_images, file_entry, name)
+                move_me(my_musics, file_entry, name)
                 logging.info(name)
 
     def move_documents(self, file_entry, name):
         for docu_format in documents_formats:
             if name.endswith(docu_format):
-                move_me(my_images, file_entry, name)
+                move_me(my_documents, file_entry, name)
                 logging.info(name)
 
 # if statement for the directory to run as a script
