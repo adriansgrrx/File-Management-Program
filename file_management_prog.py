@@ -9,6 +9,7 @@
 
 # Accessing files in python
 import os as my_computer
+from os import rename
 from os.path import splitext, join, exists
 from watchdog.observers import Observer
 from watchdog.events import LoggingEventHandler
@@ -28,9 +29,12 @@ def create_newname(location, name):
     return name
     
 def move_me(location, files_entry, name):
+    if exists(location, name):
+        new_name = create_newname(location, name)
+        same_name = join(location, name)
+        new_file_name = join(location, new_name)
+        rename(same_name, new_file_name)
     move(files_entry, my_images)
-
-
 
 class EventHandler(LoggingEventHandler):
     def events_on_download(self):
