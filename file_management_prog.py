@@ -11,20 +11,19 @@
 from os import scandir, rename
 from os.path import splitext, exists, join
 from shutil import move
-from time import sleep
-
-import logging
-
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
+import logging
+import time
+
 
 # directories
 my_downloads = "C:/Users/adrian/Downloads"
-
+# folders
 my_images = "C:/Users/adrian/Desktop/Images"
-# my_videos = "C:/Users/adrian/Desktop/Videos"
-# my_documents = "C:/Users/adrian/Desktop/Documents"
-# my_musics = "C:/Users/adrian/Desktop/Musics"
+my_videos = "C:/Users/adrian/Desktop/Videos"
+my_documents = "C:/Users/adrian/Desktop/Documents"
+my_musics = "C:/Users/adrian/Desktop/Musics"
 
 # Formats
 image_formats = [".jpg", ".jpeg", ".jpe", ".jif", ".jfif", ".jfi", ".png", ".gif", ".webp", 
@@ -62,12 +61,33 @@ class EventHandler(FileSystemEventHandler):
             for files in my_files:
                 name = files.name
                 self.move_images(files, name)
+                self.move_videos(files, name)
+                self.move_documents(files, name)
+                self.move_musics(files, name)
 
-    def move_images(self, file_entry, name):  # * Checks all Image Files
+    def move_images(self, file_entry, name):
         for img_format in image_formats:
             if name.endswith(img_format) or name.endswith(img_format.upper()):
                 move_me(my_images, file_entry, name)
                 logging.info(f"Moved image file: {name}")
+
+    def move_videos(self, file_entry, name):
+        for vid_format in video_formats:
+            if name.endswith(vid_format) or name.endswith(vid_format.upper()):
+                move_me(my_videos, file_entry, name)
+                logging.info(f"Moved video file: {name}")
+
+    def move_documents(self, file_entry, name):
+        for docu_format in documents_formats:
+            if name.endswith(docu_format) or name.endswith(docu_format.upper()):
+                move_me(my_documents, file_entry, name)
+                logging.info(f"Moved document file: {name}")
+
+    def move_musics(self, file_entry, name):
+        for msc_format in music_formats:
+            if name.endswith(msc_format) or name.endswith(msc_format.upper()):
+                move_me(my_musics, file_entry, name)
+                logging.info(f"Moved music file: {name}")
 
 # if statement for the directory to run as a script
 if __name__ == "__main__":
@@ -85,7 +105,7 @@ if __name__ == "__main__":
     observer.start() # execute the observer
     try:
         while True:
-            sleep(10)
+            time.sleep(10)
     except KeyboardInterrupt:
         observer.stop() # to not break/exit the program for any keyboard input interruption
     observer.join()
