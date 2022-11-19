@@ -31,13 +31,13 @@ image_formats = [".jpg", ".jpeg", ".jpe", ".jif", ".jfif", ".jfi", ".png", ".gif
                     ".dib", ".heif", ".heic", ".ind", ".indd", ".indt", ".jp2", ".j2k", 
                     ".jpf", ".jpf", ".jpx", ".jpm", ".mj2", ".svg", ".svgz", ".ai", ".eps", ".ico"]
 
-video_formats = [".m4a", ".flac", "mp3", ".wav", ".wma", ".aac"]
+video_formats = [".webm", ".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".ogg",
+                ".mp4", ".mp4v", ".m4v", ".avi", ".wmv", ".mov", ".qt", ".flv", ".swf", ".avchd"]
 
 documents_formats = [".doc", ".docx", ".odt",
                     ".pdf", ".xls", ".xlsx", ".ppt", ".pptx"]
 
-music_formats = [".webm", ".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".ogg",
-                ".mp4", ".mp4v", ".m4v", ".avi", ".wmv", ".mov", ".qt", ".flv", ".swf", ".avchd"]
+music_formats = [".m4a", ".flac", "mp3", ".wav", ".wma", ".aac"]
 
 def create_newname(location, name):
     filename, extension = splitext(name)
@@ -87,7 +87,7 @@ class EventHandler(FileSystemEventHandler):
         for msc_format in music_formats:
             if name.endswith(msc_format) or name.endswith(msc_format.upper()):
                 move_me(my_musics, file_entry, name)
-                logging.info(f"Moved music file: {name}")
+                logging.info(f"Moved audio file: {name}")
 
 # if statement for the directory to run as a script
 if __name__ == "__main__":
