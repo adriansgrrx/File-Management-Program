@@ -20,6 +20,12 @@ import shutil as move
 my_downloads = "C:/Users/adrian/Downloads"
 my_images = "C:/Users/adrian/Desktop/Images"
 
+# Formats
+image_formats = [".jpg", ".jpeg", ".jpe", ".jif", ".jfif", ".jfi", ".png", ".gif", ".webp", 
+                    ".tiff", ".tif", ".psd", ".raw", ".arw", ".cr2", ".nrw",".k25", ".bmp", 
+                    ".dib", ".heif", ".heic", ".ind", ".indd", ".indt", ".jp2", ".j2k", 
+                    ".jpf", ".jpf", ".jpx", ".jpm", ".mj2", ".svg", ".svgz", ".ai", ".eps", ".ico"]
+
 def create_newname(location, name):
     filename, format =  splitext(name) # separates filename including the format
     counter = 1
@@ -39,44 +45,34 @@ def move_me(location, files_entry, name):
 class EventHandler(LoggingEventHandler):
     def events_on_download(self):
         # scandir method is used to access the directory of a certain path
-        for file_entry in my_computer.scandir(my_downloads):
-            name = file_entry.name
-            self.move_images(self, file_entry, name)
+        with scandir(my_downloads) as my_computer:
+            for file_entry in my_computer:
+                name = file_entry.name
+                self.move_images(self, file_entry, name)
 
     def move_images(self, file_entry, name):
-        if name.endswith("jpg"):
-            move_me(my_images, file_entry, name)
-            logging.info(name)
-
-        
-        
-
-
-
-
-
+        for img_format in image_formats:
+            if name.endswith(img_format):
+                move_me(my_images, file_entry, name)
+                logging.info(name)
 
 # if statement for the directory to run as a script
 if __name__ == "__main__":
     # format for the logging info
     logging.basicConfig(
         level=logging.INFO,
-        format="%(asctEventHandlerime)s -%(message)s",
+        format="%(asctime)s - %(message)s",
         datefmt="%Y-%m-%d %H:%M"
     )
-    # for the path
-    path = my_downloads
+    path = my_downloads  # for the path
     # for any modifications/deletions/creation
     event_handler = EventHandler()
-    # observe
-    observer = Observer()
+    observer = Observer()    # observe
     observer.schedule(event_handler, path, recursive=True)
-
-    # execute the observer
-    observer.start()
+    observer.start() # execute the observer
     try:
         while True:
-            time.sleep(1)
+            time.sleep(10)
     except KeyboardInterrupt:
         observer.stop() # to break/exit the program for any keyboard input interruption
     observer.join()
