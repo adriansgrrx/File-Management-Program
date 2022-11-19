@@ -16,7 +16,6 @@ from watchdog.events import FileSystemEventHandler
 import logging
 import time
 
-
 # directories
 my_downloads = "C:/Users/adrian/Downloads"
 # folders
