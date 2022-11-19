@@ -9,6 +9,7 @@
 
 # Accessing files in python
 import os as my_computer
+from os.path import splitext, join, exists
 from watchdog.observers import Observer
 from watchdog.events import LoggingEventHandler
 import logging
@@ -17,9 +18,15 @@ import shutil as move
 
 my_downloads = "C:/Users/adrian/Downloads"
 my_images = "C:/Users/adrian/Desktop/Images"
-# scandir method is used to access the directory of a certain path
 
-
+def create_newname(location, name):
+    filename, format =  splitext(name) # separates filename including the format
+    counter = 1
+    while exists(location, name):
+        name = filename + str(f"({counter})") + format
+        counter += 1
+    return name
+    
 def move_me(location, files_entry, name):
     move(files_entry, my_images)
 
@@ -27,6 +34,7 @@ def move_me(location, files_entry, name):
 
 class EventHandler(LoggingEventHandler):
     def events_on_download(self):
+        # scandir method is used to access the directory of a certain path
         for file_entry in my_computer.scandir(my_downloads):
             name = file_entry.name
             self.move_images(self, file_entry, name)
