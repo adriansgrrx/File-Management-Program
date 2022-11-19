@@ -6,6 +6,7 @@ import os as my_computer
 from watchdog.observers import Observer
 from watchdog.events import LoggingEventHandler
 import logging
+import time
 
 my_downloads = "C:/Users/adrian/Downloads"
 # scandir method is used to access the directory of a certain path
@@ -31,3 +32,9 @@ if __name__ == "__main__":
 
     # execute the observer
     observer.start()
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        observer.stop() # to break/exit the program for any keyboard input interruption
+    observer.join()
